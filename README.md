@@ -50,8 +50,7 @@ To be able to be sync, the data structure of user in your database should follow
 #### `mix av_user_sync.gen.schema`
 The main functions of this command is to
 - generate schema file corresponding to the data structure of user
-- also generates a migration file corresponding to the data structure
-- inject configuration into `config/config.exs` to configure repo and schema
+- also generates a migration file corresponding to the data structure schema
 
 This command accepts only two arguments and they are
  1. schema module name
