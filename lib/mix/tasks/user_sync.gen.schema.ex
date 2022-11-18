@@ -22,9 +22,9 @@ defmodule Mix.Tasks.AvUserSync.Gen.Schema do
 
     prompt_for_conflicts(schema)
 
-    copy_new_files(schema)
-
-    print_shell_instructions()
+    schema
+    |> copy_new_files()
+    |> print_shell_instructions()
   end
 
   defp prompt_for_conflicts(schema) do
@@ -112,8 +112,16 @@ defmodule Mix.Tasks.AvUserSync.Gen.Schema do
   end
 
   @doc false
-  def print_shell_instructions() do
+  def print_shell_instructions(schema) do
     Mix.shell().info """
+
+
+    To enable syncing in production, update your configuration in `config/config.exs` with:
+
+      config :av_user_sync,
+        repo: #{inspect schema.repo},
+        schema: #{inspect schema.module}
+
 
     Remember to update your repository by running migrations:
 
