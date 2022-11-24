@@ -55,6 +55,8 @@ defmodule Mix.Tasks.AvUserSync.Gen.Seed do
 
     create_test_accounts(repo, schema)
 
+    print_additional_info(repo, schema)
+
   end
 
   def get_config do
@@ -113,5 +115,22 @@ defmodule Mix.Tasks.AvUserSync.Gen.Seed do
 
   end
 
+  def print_additional_info(repo, schema) do
+    Mix.shell().info """
+
+
+    3 test users are created in your `#{inspect repo}` repo
+    on `#{inspect schema}` schema.
+
+    To try logging in with these test users,
+    please ask the Talam team for credentials at:
+    talamsupport@auroville.org.in
+
+    You will be given access to a 1password vault
+    once you email to Talam team. The vault will
+    contain credentials for all the 3 users.
+
+    """
+  end
 
 end
