@@ -11,7 +11,9 @@ defmodule AVUserSync.Application do
       # Starts a worker by calling: AVUserSync.Worker.start_link(arg)
       # {AVUserSync.Worker, arg}
       AVUserSync.AVProfile.Repo,
-      AVUserSync.AVAccounts.Repo
+      AVUserSync.AVAccounts.Repo,
+
+      AVUserSync.SyncPeriodically
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
