@@ -1,6 +1,8 @@
 defmodule Mix.Tasks.AvUserSync.Gen.Seed do
   use Mix.Task
 
+  @requirements ["app.start"]
+
   @all_seed_params [
     %{
       id: "77b953f8-3bd6-48c5-9c89-9c5dcf29933e",
@@ -27,7 +29,7 @@ defmodule Mix.Tasks.AvUserSync.Gen.Seed do
     },
 
     %{
-      id: "8d74a8d9-75f7-4010-aeae-248e20c5a864",
+      id: "8d74a8d9-75f7-4010-aeae-fee10d928d44",
       username: "wanda-maximoff",
       email: "wanda.maxim@mail.ru",
       # asyncto_id: user.asyncto_id,
@@ -40,9 +42,6 @@ defmodule Mix.Tasks.AvUserSync.Gen.Seed do
   ]
 
   def run(argv) do
-    myapp = :av_user_sync
-    # :ok = Application.ensure_all_started(:dummy)
-
     # mix av_user_sync.gen.seed
 
     unless OptionParser.parse(argv, switches: []) == {[], [], []} do
@@ -62,7 +61,8 @@ defmodule Mix.Tasks.AvUserSync.Gen.Seed do
     otp_app = Application.get_env(:av_user_sync, :otp_app, false)
     unless otp_app, do: raise_with_help("Configuration for otp_app is missing")
 
-    :ok = Application.ensure_all_started(otp_app)
+    {:ok, _} = Application.ensure_all_started(otp_app)
+
     repo = Application.get_env(:av_user_sync, :repo)
     schema = Application.get_env(:av_user_sync, :schema)
 
@@ -82,8 +82,8 @@ defmodule Mix.Tasks.AvUserSync.Gen.Seed do
   end
 
   def check_modules_exists(repo, schema) do
-    Code.ensure_compiled(repo)
-    Code.ensure_compiled(schema)
+    Code.ensure_compiled!(repo)
+    Code.ensure_compiled!(schema)
   end
 
   defp raise_with_help(msg) do
