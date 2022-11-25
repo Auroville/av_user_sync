@@ -24,6 +24,4 @@ defmodule AVUserSync.SyncPeriodically do
 
     AVUserSync.upsert_users()
   end
-
-
 end
