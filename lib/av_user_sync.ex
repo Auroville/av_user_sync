@@ -43,7 +43,7 @@ defmodule AVUserSync do
 
     fields = %{
       id: av_account.id,
-      username: av_account.user_name,
+      username: av_account.username,
       email: av_account.email,
       asyncto_id: av_account.asyncto_id
     }
@@ -65,6 +65,8 @@ defmodule AVUserSync do
       }
 
       Map.merge(fields, additional_fields)
+    else
+      fields
     end
 
     struct(schema, fields)

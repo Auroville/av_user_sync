@@ -1,3 +1,4 @@
+# These configurations actually won't get loaded into parent app's configurations
 import Config
 
 config :av_user_sync,
