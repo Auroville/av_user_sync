@@ -1,3 +1,6 @@
+# These configurations will not get loaded by the parent application at all
+# It's actually never a good practice to have config files in libraries
+
 import Config
 
 config :av_user_sync, AVUserSync.AVProfile.Repo,
