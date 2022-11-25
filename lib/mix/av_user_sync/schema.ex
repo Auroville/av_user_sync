@@ -67,6 +67,7 @@ defmodule Mix.AVUserSync.Schema do
       human_plural: humanize(schema_plural),
       sample_id: "11111111-1111-1111-1111-111111111111",
       context_app: ctx_app,
+      otp_app: otp_app,
       migration_module: migration_module(),
       prefix: opts[:prefix]
     }

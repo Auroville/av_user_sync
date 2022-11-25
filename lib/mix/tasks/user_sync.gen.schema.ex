@@ -119,6 +119,7 @@ defmodule Mix.Tasks.AvUserSync.Gen.Schema do
     To enable syncing in production, update your configuration in `config/config.exs` with:
 
       config :av_user_sync,
+        otp_app: #{inspect schema.otp_app}
         repo: #{inspect schema.repo},
         schema: #{inspect schema.module}
 
