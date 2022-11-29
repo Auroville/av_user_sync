@@ -7,7 +7,7 @@
 AVUserSync is a library that can be installed to sync Auroville user data in your database from two sources, namely, `av_accounts` and `profiles`.
 
 ## Installation
-Due to security reasons of the users of both sources, It's best to always sync in production or staging and not development. 
+Due to security reasons of the users of both sources, It's best to always sync in production or staging and not in development environment. 
 
 This project is available as a [package in hex](). In order for this library to only sync in production, you need to install the hex package by adding `av_user_sync` to your list of dependencies in `mix.exs`:
 ```elixir
@@ -61,7 +61,7 @@ end
 Voila!!! You can sit back and watch your users getting synced from the two sources
 
 ## Mix tasks
-The goal of these mix tasks is to enable easy setup of your application to start syncing. Please go through the rest of it as you may find them bery helpful.
+The goal of these mix tasks is to enable easy setup of your application to start syncing. Please go through the rest of it as you may find them very helpful.
 
 #### `mix av_user_sync.gen.schema`
 The main functions of this command is to
@@ -77,7 +77,7 @@ Below is just an example of how you can use this command:
 mix av_user_sync.gen.schema Shared.User av_users
 ```
 
-Alternatively, you can also run the command without any arguments. Running withouth any arguments just assumes schema module name to be `Accounts.User` and the table name to be `users`. So, running the command like below is also valid:
+Alternatively, you can also run the command without any arguments. Running without any arguments just assumes schema module name to be `Accounts.User` and the table name to be `users`. So, running the command like below is also valid:
 ```console
 mix av_user_sync.gen.schema
 ```
@@ -92,8 +92,8 @@ This command doesn't require any arguments for it to work. But you need to have 
 mix av_user_sync.gen.seed
 ```
 
-## Running and working in development
-For working with development environment, it's always better to clone this repository and work with it. In whichever directory you want to work with, add the library in `mix.exs` with the path installer rather than hex installer:
+## Contributing to AVUserSync
+For working with development environment, it's always better to clone this repository and work with it. In Elixir/Phoenix, add the `av_user_sync` in `mix.exs` with the path installer rather than github installer like above:
 ```elixir
 def deps do
   {:av_user_sync, path: "../av_user_sync"}
