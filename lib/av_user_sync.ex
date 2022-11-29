@@ -1,18 +1,15 @@
 defmodule AVUserSync do
   @moduledoc """
-  Documentation for `AVUserSync`.
+  This module contains the core functionality for syncing users.
   """
 
   alias AVUserSync.{AVAccounts, AVProfile}
 
   @doc """
-  Upserts all users in the parent application
+  Upserts all users to the given repo and schema
   """
-  def upsert_users() do
+  def upsert_users(repo, schema) do
     av_accounts = list_all_av_accounts()
-
-    repo = Application.get_env(:av_user_sync, :repo)
-    schema = Application.get_env(:av_user_sync, :schema)
 
     Enum.map(av_accounts, fn av_account ->
       user = build_user(av_account, schema)
@@ -22,21 +19,21 @@ defmodule AVUserSync do
   end
 
   @doc """
-  Lists all profiles from the AVProfile Repo
+  Lists all profiles from the AVAccounts repo
   """
   defp list_all_av_accounts() do
     AVAccounts.Repo.all(AVAccounts.User)
   end
 
   @doc """
-  Gets a profile by user_id
+  Gets a profile by user from the AVProfile repo
   """
   defp get_profile_by_av_account(%AVAccounts.User{id: id}) do
     AVProfile.Repo.get_by(AVProfile.Profile, auroville_account_id: id)
   end
 
   @doc """
-  Builds the user ready to be inserted
+  Returns a map for inserting into User struct when given a `av_account` and a `schema` to insert into
   """
   defp build_user(av_account, schema) do
     profile = get_profile_by_av_account(av_account)
