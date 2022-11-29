@@ -9,10 +9,10 @@ AVUserSync is a library that can be installed to sync Auroville user data in you
 ## Installation
 Due to security reasons of the users of both sources, It's best to always sync in production or staging and not in development environment. 
 
-This project is available as a [package in hex](). In order for this library to only sync in production, you need to install the hex package by adding `av_user_sync` to your list of dependencies in `mix.exs`:
+This project **is not** available as a package in hex. For this library to only sync in production, you need to install from the Github installer by adding `av_user_sync` to your list of dependencies in `mix.exs` like below:
 ```elixir
 def deps do
-  {:av_user_sync, "~> 0.1.0", runtime: Mix.env() == :prod}
+  {:av_user_sync, github: "auroville/av_user_sync", runtime: Mix.env() == :prod}
 end
 ```
 
