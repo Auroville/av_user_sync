@@ -18,8 +18,6 @@ defmodule Mix.Tasks.AvUserSync.Gen.Schema do
 
     schema = build(argv)
 
-    paths = Mix.AVUserSync.generator_paths()
-
     prompt_for_conflicts(schema)
 
     schema

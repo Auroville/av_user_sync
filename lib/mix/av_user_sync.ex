@@ -90,16 +90,6 @@ defmodule Mix.AVUserSync do
   end
 
   @doc """
-  The paths to look for template files for generators.
-
-  Defaults to checking the current app's `priv` directory,
-  and falls back to AVUserSync's `priv` directory.
-  """
-  def generator_paths do
-    ["./", :av_user_sync]
-  end
-
-  @doc """
   Prompts to continue if any files exist.
   """
   def prompt_for_conflicts(generator_files) do
