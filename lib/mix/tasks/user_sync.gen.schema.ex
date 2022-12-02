@@ -39,6 +39,8 @@ defmodule Mix.Tasks.AvUserSync.Gen.Schema do
 
 
     schema = Schema.new(schema_name, plural, [])
+    # TODO: Give optional arguments given from shell to the function
+    # The reason we're giving an empty list is because the actual function is not ready to use opts and we need to design a whole new workflow for that
   end
 
   @doc false
