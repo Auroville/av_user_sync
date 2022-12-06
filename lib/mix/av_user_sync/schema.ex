@@ -1,6 +1,6 @@
 defmodule Mix.AVUserSync.Schema do
   @moduledoc """
-  TODO: Write better documentation for this module
+  Helper functions for schema
   """
 
   @doc """
@@ -27,6 +27,43 @@ defmodule Mix.AVUserSync.Schema do
       otp_app: otp_app,
       migration_module: migration_module()
     }
+  end
+
+  @doc """
+  Prompts to continue if any file exists.
+  """
+  def prompt_for_conflict(%{file: file_path} = _schema) do
+    if File.exists?(file_path) do
+
+      Mix.shell().info """
+        There is a conflict for generating new schema file:
+
+        * #{file_path}
+      """
+
+      unless Mix.shell().yes?("Proceed with interactive overwrite?") do
+        System.halt()
+      end
+
+    else
+      :ok
+    end
+  end
+
+  @doc """
+  Returns timestamp suitable for migration file names
+  """
+  def timestamp() do
+    {{y, m, d}, {hh, mm, ss}} = :calendar.universal_time()
+    "#{y}#{pad(m)}#{pad(d)}#{pad(hh)}#{pad(mm)}#{pad(ss)}"
+  end
+  defp pad(i) when i < 10, do: << ?0, ?0 + i >>
+  defp pad(i), do: to_string(i)
+
+
+  @doc false
+  def valid_schema?(schema) do
+    schema =~ ~r/^[A-Z]\w*(\.[A-Z]\w*)*$/
   end
 
   defp migration_module do

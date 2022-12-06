@@ -18,17 +18,11 @@ defmodule Mix.Tasks.AvUserSync.Gen.Schema do
 
     schema = build(argv)
 
-    prompt_for_conflicts(schema)
+    Schema.prompt_for_conflict(schema)
 
     schema
     |> copy_new_files()
     |> print_shell_instructions()
-  end
-
-  defp prompt_for_conflicts(schema) do
-    schema
-    |> files_to_be_generated()
-    |> Mix.AVUserSync.prompt_for_conflicts()
   end
 
   @doc false
@@ -44,11 +38,6 @@ defmodule Mix.Tasks.AvUserSync.Gen.Schema do
   end
 
   @doc false
-  def files_to_be_generated(%{file: file} = _schema) do
-    [{:eex, "schema.ex", file}]
-  end
-
-  @doc false
   def copy_new_files(%{context_app: ctx_app} = schema) do
     priv_directory = :code.priv_dir(:av_user_sync) |> String.Chars.to_string()
 
@@ -61,7 +50,8 @@ defmodule Mix.Tasks.AvUserSync.Gen.Schema do
     schema_target = schema.file
     Mix.Generator.create_file(schema.file, EEx.eval_file(schema_source, schema: schema))
 
-    migration_target = Mix.AVUserSync.context_app_path(ctx_app, "priv/repo/migrations/#{timestamp()}_create_#{schema.table}.exs")
+    timestamp = Schema.timestamp()
+    migration_target = Mix.AVUserSync.context_app_path(ctx_app, "priv/repo/migrations/#{timestamp}_create_#{schema.table}.exs")
     Mix.Generator.create_file(migration_target, EEx.eval_file(migration_source, schema: schema))
 
     schema
@@ -75,7 +65,7 @@ defmodule Mix.Tasks.AvUserSync.Gen.Schema do
   @doc false
   def validate_args!([schema, plural | remaining] = args) do
     cond do
-      not valid_schema?(schema) ->
+      not Schema.valid_schema?(schema) ->
         raise_with_help "Expected the schema argument, #{inspect schema}, to be a valid module name"
 
       String.contains?(plural, ":") or plural != Macro.underscore(plural) ->
@@ -129,17 +119,5 @@ defmodule Mix.Tasks.AvUserSync.Gen.Schema do
         $ mix ecto.migrate
     """
   end
-
-  @doc false
-  def valid_schema?(schema) do
-    schema =~ ~r/^[A-Z]\w*(\.[A-Z]\w*)*$/
-  end
-
-  defp timestamp do
-    {{y, m, d}, {hh, mm, ss}} = :calendar.universal_time()
-    "#{y}#{pad(m)}#{pad(d)}#{pad(hh)}#{pad(mm)}#{pad(ss)}"
-  end
-  defp pad(i) when i < 10, do: << ?0, ?0 + i >>
-  defp pad(i), do: to_string(i)
 
 end
