@@ -1,4 +1,8 @@
 defmodule Mix.AVUserSync do
+  @moduledoc """
+  Contains helper functions for mix tasks
+  """
+
 
     @doc """
   Converts a string to camel case.
@@ -88,70 +92,6 @@ defmodule Mix.AVUserSync do
   def context_lib_path(ctx_app, rel_path) when is_atom(ctx_app) do
     context_app_path(ctx_app, Path.join(["lib", to_string(ctx_app), rel_path]))
   end
-
-  @doc """
-  The paths to look for template files for generators.
-
-  Defaults to checking the current app's `priv` directory,
-  and falls back to AVUserSync's `priv` directory.
-  """
-  def generator_paths do
-    ["./", :av_user_sync]
-  end
-
-  @doc """
-  Prompts to continue if any files exist.
-  """
-  def prompt_for_conflicts(generator_files) do
-    file_paths =
-      Enum.flat_map(generator_files, fn
-        {:new_eex, _, _path} -> []
-        {_kind, _, path} -> [path]
-      end)
-
-    case Enum.filter(file_paths, &File.exists?(&1)) do
-      [] -> :ok
-      conflicts ->
-        Mix.shell().info"""
-        The following files conflict with new files to be generated:
-
-        #{Enum.map_join(conflicts, "\n", &"  * #{&1}")}
-
-        See the --web option to namespace similarly named resources
-        """
-        unless Mix.shell().yes?("Proceed with interactive overwrite?") do
-          System.halt()
-        end
-    end
-  end
-
-  @doc """
-  Copies files from source dir to target dir
-  according to the given map.
-
-  Files are evaluated against EEx according to
-  the given binding.
-  """
-  def copy_from(apps, source_dir, binding) do
-
-    # for {format, source_file_path, target} <- mapping do
-
-
-    #   case format do
-    #     :text -> Mix.Generator.create_file(target, File.read!(source))
-    #     :eex  -> Mix.Generator.create_file(target, EEx.eval_file(source, binding))
-    #     :new_eex ->
-    #       if File.exists?(target) do
-    #         :ok
-    #       else
-    #         Mix.Generator.create_file(target, EEx.eval_file(source, binding))
-    #       end
-    #   end
-    # end
-  end
-
-  defp to_app_source(path, source_dir) when is_binary(path),  do: Path.join(path, source_dir)
-  defp to_app_source(app, source_dir) when is_atom(app), do: Application.app_dir(app, source_dir)
 
 
   defp app_base(app) do

@@ -1,4 +1,17 @@
 defmodule Mix.Tasks.AvUserSync.Gen.Seed do
+  @moduledoc """
+  Inserts three test users for you to play around
+
+  `mix av_user_sync.gen.seed` expects the below configuration
+    in your `config/config.exs`. The command will raise if configuration is not found:
+
+      config :av_user_sync,
+        repo: YourEctoRepo,
+        schema: YourEctoSchma
+
+  """
+  @shortdoc "Inserts three test users for you to play around"
+
   use Mix.Task
 
   @requirements ["app.start"]
